@@ -11,11 +11,19 @@
 **نحوه سیم بندی :**
 
 LCD   |   ESP32
+
 VCC   |   3.3V
+
 GND   |   GND
+
 SCL   |   GPIO 4
+
 SDA   |   GPIO 6
+
 CS    |   GPIO 7
+
 DC    |   GPIO 10
+
 RST   |   GPIO 9
+
 BL    |   GPIO 3
