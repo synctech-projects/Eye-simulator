@@ -6,4 +6,16 @@
 
 3-بعد از ان،پوشه های داخل فایل Library را داخل ادرس C:\Users\yor system\Documents\Arduino\libraries جایگذاری کنید.
 
-4-از پوشه eye فایل eye.ino را باز کنید،از منوی tools ابتدا برد LOLIN C3 Mini را انتخاب کنید،قسمت partition sheme را روی گزینه No OTA (1MB APP / 3MB SPIFFS) قرار دهید،در اخر پورت را تنظیم کنید،و گزینه ESP32 Sketch data upload را بزنید.
+4-از پوشه eye فایل eye.ino را باز کنید،از منوی tools ابتدا برد LOLIN C3 Mini را انتخاب کنید،قسمت partition sheme را روی گزینه No OTA (1MB APP / 3MB SPIFFS) قرار دهید،در اخر پورت را تنظیم کنید،و گزینه ESP32 Sketch data upload را بزنید،پس از اپلو شدن فایل باینری data،حالا باید فایل ino را اپلود کنید،پس گزینه اپلود را بزنید و منتظر بمانید تا کامپایل و اپلود شود.
+
+**نحوه سیم بندی :**
+
+LCD   |   ESP32
+VCC   |   3.3V
+GND   |   GND
+SCL   |   GPIO 4
+SDA   |   GPIO 6
+CS    |   GPIO 7
+DC    |   GPIO 10
+RST   |   GPIO 9
+BL    |   GPIO 3
