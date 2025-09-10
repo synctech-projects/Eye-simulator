@@ -1,10 +1,13 @@
+//Designed by SyncTech Electronic
+//Version 1.00 | 1403/06/19
+//Website : Sync-tech.ir
+
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_GC9A01A.h>
 #include "FS.h"
 #include "SPIFFS.h"
 
-// پین‌های نمایشگر
 #define TFT_SCK   4
 #define TFT_MOSI  6
 #define TFT_MISO  -1
@@ -13,7 +16,6 @@
 #define TFT_RST   9
 #define TFT_BL    -1
 
-// ابعاد مبدأ و مقصد (زوم ×2)
 #define SRC_W 120
 #define SRC_H 120
 #define DST_W 240
@@ -29,7 +31,6 @@ Adafruit_GC9A01A tft(TFT_CS, TFT_DC, TFT_RST);
 uint16_t frameBuf[SRC_W * SRC_H];
 File animFile;
 
-// بررسی یک آیتم در لیست
 bool isInList(uint8_t frame, const uint8_t *list, size_t listSize) {
   for (size_t i = 0; i < listSize; i++) {
     if (frame == list[i]) return true;
@@ -37,24 +38,20 @@ bool isInList(uint8_t frame, const uint8_t *list, size_t listSize) {
   return false;
 }
 
-// پخش یک محدوده با مکث و نادیده‌گیری
 void playSequence(uint8_t start, uint8_t end, uint8_t repeatCount,
                   const uint8_t *pauseList, size_t pauseCount,
                   const uint8_t *skipList = nullptr, size_t skipCount = 0) {
   for (uint8_t rep = 0; rep < repeatCount; rep++) {
     for (uint8_t frame = start; frame < end; frame++) {
       
-      // رد کردن فریم‌های نادیده گرفته شده
       if (skipList && isInList(frame, skipList, skipCount)) {
         Serial.printf("Frame %d - نادیده گرفته شد\n", frame);
         continue;
       }
 
-      // خواندن فریم
       animFile.seek(frame * FRAME_SIZE);
       animFile.read((uint8_t*)frameBuf, FRAME_SIZE);
 
-      // نمایش با زوم ۲x
       for (int y = 0; y < DST_H; y++) {
         int srcY = y >> 1;
         uint16_t lineBuf[DST_W];
@@ -65,7 +62,6 @@ void playSequence(uint8_t start, uint8_t end, uint8_t repeatCount,
         tft.drawRGBBitmap(0, y, lineBuf, DST_W, 1);
       }
 
-      // مکث متناسب
       if (isInList(frame, pauseList, pauseCount)) {
         Serial.printf("Frame %d - مکث %d میلی‌ثانیه\n", frame, pauseTimeMs);
         delay(pauseTimeMs);
@@ -105,10 +101,10 @@ void loop() {
   const uint8_t pausesAll[] = {4, 11, 22, 29, 39, 46};
 
   while (true) {
-    // مرحله 1 تا 4 طبق روال قبلی
     playSequence(0, FRAME_COUNT, 1, pausesAll, sizeof(pausesAll));
     playSequence(0, 18, 2, pausesAll, sizeof(pausesAll));
     playSequence(17, 35, 2, pausesAll, sizeof(pausesAll));
     playSequence(34, FRAME_COUNT, 2, pausesAll, sizeof(pausesAll));
   }
 }
+
